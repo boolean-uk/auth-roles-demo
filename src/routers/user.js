@@ -4,11 +4,12 @@ const {
   login,
   getUsers
 } = require('../controllers/user')
+const { verifyToken, verifyAdminRole } = require("../middleware/auth")
 
 
 const router = express.Router()
 
-router.get("/", getUsers)
+router.get("/", verifyToken, verifyAdminRole, getUsers)
 router.post("/", createUser)
 router.post("/login", login)
 
