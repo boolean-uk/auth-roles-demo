@@ -1,4 +1,5 @@
 const express = require('express')
+require('express-async-errors')
 const app = express()
 
 const cors = require('cors')
@@ -16,5 +17,11 @@ app.use('/users', userRouter)
 
 const postRouter = require('./routers/posts')
 app.use('/posts', postRouter)
+
+app.use((err, req, res, next) => {
+    console.log(err)
+
+    res.status(500).json({ message: 'Oops! Our fault.' })
+})
 
 module.exports = app

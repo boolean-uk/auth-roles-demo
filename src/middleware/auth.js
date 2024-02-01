@@ -10,19 +10,15 @@ const verifyToken = (req, res, next) => {
 
     const [_, token] = header.split(" ")
 
-    try {
-        const verifiedToken = jwt.verify(token, 'secret')
+    const verifiedToken = jwt.verify(token, 'secret')
 
-        const foundUser = users.find(u => u.username === verifiedToken.username)
-        // check if the user exists, skipping this for now
-        delete foundUser.password
+    const foundUser = users.find(u => u.username === verifiedToken.username)
+    // check if the user exists, skipping this for now
+    delete foundUser.password
 
-        req.user = foundUser
-        
-        next()
-    } catch (e) {
-        return res.status(400).json({ message: 'Invalid credentials' })
-    }
+    req.user = foundUser
+    
+    next()
 }
 
 const verifyAdminRole = (req, res, next) => {
